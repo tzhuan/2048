@@ -2,13 +2,47 @@
 <html>
   <head>
     <script>
+
+let N = [
+// 0  1  2  3
+  [0, 0, 0, 0], // 0  N[0][0], N[0][1], N[0][2], N[0][3]
+  [0, 0, 0, 0], // 1  N[1][0], N[1][1], N[1][2], N[1][3]
+  [0, 0, 0, 0], // 2  N[2][0], N[2][1], N[2][2], N[2][3]
+  [0, 0, 0, 0], // 3  N[3][0], N[3][1], N[3][2], N[3][3]
+]
+
+function print () {
+  let output = ''
+  for (const n of N) {
+    output += n.join(', ') + "\n"
+  }
+  console.log(output)
+}
+
 window.onkeydown = function (e) {
-  var codes = ['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight']
-  if (codes.includes(e.code)) {
-    console.log(e.code)
-    // 遊戲的邏輯放在這裡：
-    //   改變盤面
-    //   重畫畫面
+  if (e.code === 'ArrowUp') {
+    // 1. 找到第一個空的 -> target
+    // 2. 按順序找所有不是空的，看是否需要移到動到 target
+    //    如果有移動的話，target = target + 1
+    for (let x = 0; x < 4; x = x + 1) {
+      let target = null
+      for (let y = 0; y < 4; y = y + 1) {
+        let n = N[y][x]
+        if (n === 0 && target === null) target = y
+        if (n > 0 && target !== null) {
+          N[target][x] = N[y][x]
+          N[y][x] = 0
+          target = target + 1
+        }
+      }
+    }
+    print()
+  } else if (e.code === 'ArrowDown') {
+    // homework1
+  } else if (e.code === 'ArrowLeft') {
+    // homework2
+  } else if (e.code === 'ArrowRight') {
+    // homework3
   }
 }
     </script>
