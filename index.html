@@ -39,12 +39,36 @@ function mergeUp () {
 }
 
 function mergeDown () {
+  for (let c = 0; c < 4; c = c + 1) {
+    for (let r = 3; r > 0; r = r - 1) {
+      if (N[r][c] === N[r - 1][c]) {
+        N[r][c] = N[r][c] + N[r][c]
+        N[r - 1][c] = 0
+      }
+    }
+  }
 }
 
 function mergeLeft () {
+  for (let r = 0; r < 4; r = r + 1) {
+    for (let c = 0; c < 3; c = c + 1) {
+      if (N[r][c] === N[r][c + 1]) {
+        N[r][c] = N[r][c] + N[r][c]
+        N[r][c + 1] = 0
+      }
+    }
+  }
 }
 
 function mergeRight () {
+  for (let r = 0; r < 4; r = r + 1) {
+    for (let c = 3; c > 0; c = c - 1) {
+      if (N[r][c] === N[r][c - 1]) {
+        N[r][c] = N[r][c] + N[r][c]
+        N[r][c - 1] = 0
+      }
+    }
+  }
 }
 
 function moveUp () {
@@ -66,34 +90,122 @@ function moveUp () {
 }
 
 function moveDown () {
+  for (let c = 0; c < 4; c = c + 1) {
+    let target = null
+    for (let r = 3; r >= 0; r = r - 1) {
+      let n = N[r][c]
+      if (n === 0 && target === null) target = r
+      if (n > 0 && target !== null) {
+        N[target][c] = N[r][c]
+        N[r][c] = 0
+        target = target + 1
+      }
+    }
+  }
 }
 
 function moveLeft () {
+  for (let r = 0; r < 4; r = r + 1) {
+    let target = null
+    for (let c = 0; c < 4; c = c + 1) {
+      let n = N[r][c]
+      if (n === 0 && target === null) target = c
+      if (n > 0 && target !== null) {
+        N[r][target] = N[r][c]
+        N[r][c] = 0
+        target = target + 1
+      }
+    }
+  }
 }
 
 function moveRight () {
+  for (let r = 0; r < 4; r = r + 1) {
+    let target = null
+    for (let c = 3; c >= 0; c = c - 1) {
+      let n = N[r][c]
+      if (n === 0 && target === null) target = c
+      if (n > 0 && target !== null) {
+        N[r][target] = N[r][c]
+        N[r][c] = 0
+        target = target - 1
+      }
+    }
+  }
+}
+
+function isFull () {
+  for (let r = 0; r < 4; r = r + 1) {
+    for (let c = 0; c < 4; c = c + 1) {
+      if (N[r][c] === 0) {
+        return false
+      }
+    }
+  }
+  return true
+}
+
+function isMergeable () {
+  // 寫在一起
+  for (let r = 0; r < 4; r = r + 1) {
+    for (let c = 0; c < 4; c = c + 1) {
+      // 檢查左右相鄰是否有值且相同
+      if (c + 1 < 4 && N[r][c] > 0 && N[r][c] === N[r][c + 1]) {
+        return true
+      }
+
+      // 檢查上下相鄰是否有值且相同
+      if (r + 1 < 4 && N[r][c] > 0 && N[r][c] === N[r + 1][c]) {
+        return true
+      }
+    }
+  }
+
+  /*
+  // 分開寫：檢查左右相鄰是否有值且相同
+  for (let r = 0; r < 4; r = r + 1) {
+    for (let c = 0; c < 3; c = c + 1) {
+      if (N[r][c] > 0 && N[r][c] === N[r][c + 1]) {
+        return true
+      }
+    }
+  }
+
+  // 分開寫：檢查上下相鄰是否有值且相同
+  for (let r = 0; r < 3; r = r + 1) {
+    for (let c = 0; c < 4; c = c + 1) {
+      if (N[r][c] > 0 && N[r][c] === N[r + 1][c]) {
+        return true
+      }
+    }
+  }
+  */
+
+  return false
+}
+
+function isGameover () {
+  return isFull() && !isMergeable()
 }
 
 window.onkeydown = function (e) {
+  if (isGameover()) return
   if (e.code === 'ArrowUp') {
     moveUp()
     mergeUp()
     moveUp()
     print()
   } else if (e.code === 'ArrowDown') {
-    // homework1
     moveDown()
     mergeDown()
     moveDown()
     print()
   } else if (e.code === 'ArrowLeft') {
-    // homework2
     moveLeft()
     mergeLeft()
     moveLeft()
     print()
   } else if (e.code === 'ArrowRight') {
-    // homework3
     moveRight()
     mergeRight()
     moveRight()
