@@ -13,12 +13,23 @@ let N = [
   [0, 0, 0, 0], // 3  N[3][0], N[3][1], N[3][2], N[3][3]
 ]
 
+function padNumber (n) {
+  if (n >= 1000) return `${n}`
+  if (n >= 100) return ` ${n}`
+  if (n >= 10) return `  ${n}`
+  return `   ${n}`
+}
+
 function print () {
-  let output = ''
-  for (const n of N) {
-    output += n.join(', ') + "\n"
+  let lines = []
+  for (const ns of N) {
+    let numbers = []
+    for (const n of ns) {
+      numbers.push(padNumber(n))
+    }
+    lines.push(numbers.join(' '))
   }
-  console.log(output)
+  console.log(lines.join('\n'))
 }
 
 function isGoableUp () {
@@ -220,6 +231,10 @@ function random () {
   // 放上去！
   N[r][c] = random2or4()
 }
+
+// game init
+random()
+print()
 
 window.onkeydown = function (e) {
   if (isGameover()) return
