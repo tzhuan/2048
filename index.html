@@ -21,6 +21,32 @@ function print () {
   console.log(output)
 }
 
+function isGoableUp () {
+  for (let c = 0; c < 4; c = c + 1) {
+
+    // 1. 檢查是否可向上移動
+    let meetEmpty = false
+    for (let r = 0; r < 4; r = r + 1) {
+      if (N[r][c] === 0) {
+        meetEmpty = true
+      }
+      if (N[r][c] > 0 && meetEmpty) {
+        return true
+      }
+    }
+
+    // 2. 檢查是否可向上合併
+    for (let r = 0; r < 3; r = r + 1) {
+      if (N[r][c] > 0 && N[r][c] === N[r + 1][c]) {
+        return true
+      }
+    }
+
+  }
+
+  return false
+}
+
 // merge {{{
 function mergeUpDown (begin, end, step) {
   for (let c = 0; c < 4; c = c + 1) {
@@ -160,6 +186,7 @@ function isMergeable () {
 }
 
 function isGameover () {
+  // return isGoableUp() || isGoableDown() || isGoableLeft() || isGoableRight()
   return isFull() && !isMergeable()
 }
 
@@ -194,27 +221,25 @@ function random () {
   N[r][c] = random2or4()
 }
 
-random()
-print()
 window.onkeydown = function (e) {
   if (isGameover()) return
   let changed = false
-  if (e.code === 'ArrowUp') {
+  if (e.code === 'ArrowUp' && isGoableUp()) {
     moveUp()
     mergeUp()
     moveUp()
     changed = true
-  } else if (e.code === 'ArrowDown') {
+  } else if (e.code === 'ArrowDown' && isGoableDown()) {
     moveDown()
     mergeDown()
     moveDown()
     changed = true
-  } else if (e.code === 'ArrowLeft') {
+  } else if (e.code === 'ArrowLeft' && isGoableLeft()) {
     moveLeft()
     mergeLeft()
     moveLeft()
     changed = true
-  } else if (e.code === 'ArrowRight') {
+  } else if (e.code === 'ArrowRight' && isGoableRight()) {
     moveRight()
     mergeRight()
     moveRight()
