@@ -1,6 +1,30 @@
 <!doctype html>
 <html>
   <head>
+    <style>
+      body {
+        padding: 0;
+        margin: 0;
+      }
+      .board {
+        margin: 0;
+        padding: 0;
+        display: block;
+        width: 100vmin;
+        height: 100vmin;
+      }
+      .cell {
+        float: left;
+        display: inline-block;
+        width: calc(23vmin - 2px);
+        height: calc(23vmin - 2px);
+        background-color: #ddd;
+        margin: 1vmin;
+        border: 1px solid black;
+        line-height: calc(95vmin / 4);
+        text-align: center;
+      }
+    </style>
     <script>
 
 let N = [
@@ -314,6 +338,23 @@ window.onkeydown = function (e) {
     </script>
   </head>
   <body>
-    2048
+    <div class="board">
+      <div class="cell">1024</div>
+      <div class="cell">2</div>
+      <div class="cell">2048</div>
+      <div class="cell">2</div>
+      <div class="cell">4</div>
+      <div class="cell">8</div>
+      <div class="cell">16</div>
+      <div class="cell">32</div>
+      <div class="cell">32</div>
+      <div class="cell">32</div>
+      <div class="cell">32</div>
+      <div class="cell">4</div>
+      <div class="cell">8</div>
+      <div class="cell">16</div>
+      <div class="cell">32</div>
+      <div class="cell">32</div>
+    </div>
   </body>
 </html>
