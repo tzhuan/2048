@@ -3,31 +3,50 @@
   <head>
     <style>
       body {
-        padding: 0;
         margin: 0;
+        padding: 1.5vmin;
+        background-color: rgb(187, 173, 160);
       }
       .board {
         margin: 0;
         padding: 0;
         display: block;
-        width: 100vmin;
-        height: 100vmin;
+        width: 97vmin;
+        height: 97vmin;
       }
       .cell {
         float: left;
-        width: calc(23vmin - 2px);
-        height: calc(23vmin - 2px);
+        width: 21.25vmin;
+        height: 21.25vmin;
         background-color: #ddd;
-        margin: 1vmin;
-        border: 1px solid black;
-        line-height: calc(95vmin / 4);
+        margin: 1.5vmin;
+        border-radius: 1vmin;
+        /* border: 1px solid black; */
+        line-height: 21.25vmin;
         text-align: center;
 
+        color: rgb(119, 110, 101);
+        background-color: rgba(238, 228, 218, 0.35);
         font-family: monospace;
         font-size: 5vmin;
+        font-weight: 900;
       }
     </style>
     <script>
+let colors = {
+  2: 'rgb(238, 228, 218)',
+  4: 'rgb(237, 224, 200)',
+  8: 'rgb(242, 177, 121)',
+  16: 'rgb(245, 149, 99)',
+  32: 'rgb(246, 124, 95)',
+  64: 'rgb(246, 94, 59)',
+  128: 'rgb(237, 207, 114)',
+  256: 'rgb(237, 204, 97)',
+  512: 'rgb(237, 200, 80)',
+  1024: 'rgb(237, 197, 63)',
+  2048: 'rgb(237, 194, 46)',
+}
+// box-shadow: 0 0 30px 10px rgba(243, 215, 116, 0.47619), inset 0 0 0 1px rgba(255, 255, 255, 0.28571);
 let N = [
 // column: 直排
 // row: 橫排
@@ -63,8 +82,10 @@ function print () {
     // console.log(cells[i].textContent)
     if (N[r][c] > 0) {
       cells[i].textContent = N[r][c]
+      cells[i].style.backgroundColor = colors[N[r][c]]
     } else {
       cells[i].textContent = ''
+      cells[i].style.backgroundColor = 'rgba(238, 228, 218, 0.35)'
     }
   }
   return
