@@ -15,7 +15,6 @@
       }
       .cell {
         float: left;
-        display: inline-block;
         width: calc(23vmin - 2px);
         height: calc(23vmin - 2px);
         background-color: #ddd;
@@ -23,10 +22,12 @@
         border: 1px solid black;
         line-height: calc(95vmin / 4);
         text-align: center;
+
+        font-family: monospace;
+        font-size: 5vmin;
       }
     </style>
     <script>
-
 let N = [
 // column: 直排
 // row: 橫排
@@ -36,6 +37,15 @@ let N = [
   [0, 0, 0, 0], // 2  N[2][0], N[2][1], N[2][2], N[2][3]
   [0, 0, 0, 0], // 3  N[3][0], N[3][1], N[3][2], N[3][3]
 ]
+let inited = false
+
+function init () {
+  if (!inited) {
+    random()
+    print()
+    inited = true
+  }
+}
 
 function padNumber (n) {
   if (n === 0) return '    '
@@ -46,6 +56,19 @@ function padNumber (n) {
 }
 
 function print () {
+  let cells = document.querySelectorAll('div.cell')
+  for (let i = 0; i < cells.length; i = i + 1) {
+    let r = Math.floor(i / 4)
+    let c = i % 4
+    // console.log(cells[i].textContent)
+    if (N[r][c] > 0) {
+      cells[i].textContent = N[r][c]
+    } else {
+      cells[i].textContent = ''
+    }
+  }
+  return
+
   let lines = []
   for (const ns of N) {
     let numbers = []
@@ -63,7 +86,6 @@ function print () {
 function isGoableUpDown (begin, end, step) {
   for (let c = 0; c < 4; c = c + 1) {
 
-    // 1. 檢查是否可向上移動
     let meetEmpty = false
     for (let r = begin; r !== end; r = r + step) {
       if (N[r][c] === 0) {
@@ -74,7 +96,6 @@ function isGoableUpDown (begin, end, step) {
       }
     }
 
-    // 2. 檢查是否可向上合併
     for (let r = begin; r !== end - step; r = r + step) {
       if (N[r][c] > 0 && N[r][c] === N[r + step][c]) {
         return true
@@ -87,7 +108,7 @@ function isGoableUpDown (begin, end, step) {
 }
 
 function isGoableUp () {
-  return isGoableDown(0, 4, 1)
+  return isGoableUpDown(0, 4, 1)
 }
 
 function isGoableDown () {
@@ -299,16 +320,15 @@ function random () {
   N[r][c] = random2or4()
 }
 
-// game init
-random()
-print()
-
 window.onkeydown = function (e) {
   if (isGameover()) {
     console.log('Gameover!')
     return
   }
   let changed = false
+  if (e.code === 'Space') {
+    init()
+  }
   if (e.code === 'ArrowUp' && isGoableUp()) {
     moveUp()
     mergeUp()
@@ -339,22 +359,22 @@ window.onkeydown = function (e) {
   </head>
   <body>
     <div class="board">
-      <div class="cell">1024</div>
-      <div class="cell">2</div>
-      <div class="cell">2048</div>
-      <div class="cell">2</div>
-      <div class="cell">4</div>
-      <div class="cell">8</div>
-      <div class="cell">16</div>
-      <div class="cell">32</div>
-      <div class="cell">32</div>
-      <div class="cell">32</div>
-      <div class="cell">32</div>
-      <div class="cell">4</div>
-      <div class="cell">8</div>
-      <div class="cell">16</div>
-      <div class="cell">32</div>
-      <div class="cell">32</div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
     </div>
   </body>
 </html>
