@@ -60,7 +60,8 @@ let inited = false
 
 function init () {
   if (!inited) {
-    random()
+    random(true)
+    random(true)
     print()
     inited = true
   }
@@ -81,10 +82,10 @@ function print () {
     let c = i % 4
     // console.log(cells[i].textContent)
     if (N[r][c] > 0) {
-      cells[i].textContent = N[r][c]
+      cells[i].innerHTML = N[r][c]
       cells[i].style.backgroundColor = colors[N[r][c]]
     } else {
-      cells[i].textContent = ''
+      cells[i].innerHTML = ''
       cells[i].style.backgroundColor = 'rgba(238, 228, 218, 0.35)'
     }
   }
@@ -310,8 +311,9 @@ function isGameover () {
   return isFull() && !isMergeable()
 }
 
-function random2or4 () {
+function random2or4 (only2) {
   // 隨機決定要放 2 還是 4
+  if (only2) return 2
   if (Math.random() >= 0.5) {
     return 2
   } else {
@@ -319,7 +321,7 @@ function random2or4 () {
   }
 }
 
-function random () {
+function random (only2) {
   // 先把空的取出來
   let rows = []
   let columns = []
@@ -338,7 +340,7 @@ function random () {
   let c = columns[i]
 
   // 放上去！
-  N[r][c] = random2or4()
+  N[r][c] = random2or4(only2)
 }
 
 window.onkeydown = function (e) {
@@ -372,7 +374,7 @@ window.onkeydown = function (e) {
     changed = true
   }
   if (changed) {
-    random()
+    random(false)
     print()
   }
 }
