@@ -56,8 +56,8 @@ let N = [
   [0, 0, 0, 0], // 2  N[2][0], N[2][1], N[2][2], N[2][3]
   [0, 0, 0, 0], // 3  N[3][0], N[3][1], N[3][2], N[3][3]
 ]
-let inited = false
 
+let inited = false
 function init () {
   if (!inited) {
     random(true)
@@ -83,10 +83,15 @@ function print () {
     // console.log(cells[i].textContent)
     if (N[r][c] > 0) {
       cells[i].innerHTML = N[r][c]
-      cells[i].style.backgroundColor = colors[N[r][c]]
+      cells[i].style.backgroundColor = colors[ N[r][c] ]
     } else {
       cells[i].innerHTML = ''
       cells[i].style.backgroundColor = 'rgba(238, 228, 218, 0.35)'
+    }
+    if (N[r][c] >= 8) {
+      cells[i].style.color = 'white'
+    } else {
+      cells[i].style.color = 'black'
     }
   }
   return
@@ -312,8 +317,12 @@ function isGameover () {
 }
 
 function random2or4 (only2) {
+  // 直接回傳 2
+  if (only2) {
+    return 2
+  }
+
   // 隨機決定要放 2 還是 4
-  if (only2) return 2
   if (Math.random() >= 0.5) {
     return 2
   } else {
@@ -343,15 +352,20 @@ function random (only2) {
   N[r][c] = random2or4(only2)
 }
 
+window.onload = init
+
 window.onkeydown = function (e) {
   if (isGameover()) {
+    alert('Game over!')
     console.log('Gameover!')
     return
   }
   let changed = false
+    /*
   if (e.code === 'Space') {
     init()
   }
+  */
   if (e.code === 'ArrowUp' && isGoableUp()) {
     moveUp()
     mergeUp()
