@@ -440,13 +440,13 @@ function goRight () {
 window.onload = init
 window.onkeydown = function (e) {
   if (!checkGameover()) {
-    if (e.code === 'ArrowUp' && isGoableUp()) {
+    if (e.code === 'ArrowUp') {
       goUp()
-    } else if (e.code === 'ArrowDown' && isGoableDown()) {
+    } else if (e.code === 'ArrowDown') {
       goDown()
-    } else if (e.code === 'ArrowLeft' && isGoableLeft()) {
+    } else if (e.code === 'ArrowLeft') {
       goLeft()
-    } else if (e.code === 'ArrowRight' && isGoableRight()) {
+    } else if (e.code === 'ArrowRight') {
       goRight()
     }
   }
