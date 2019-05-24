@@ -408,31 +408,33 @@ function checkGameover () {
   return false
 }
 
-function go (move, merge) {
-  move()
-  merge()
-  move()
-  print()
-  if (!checkGameover()) {
-    random(false)
+function go (check, move, merge) {
+  if (check()) {
+    move()
+    merge()
+    move()
     print()
+    if (!checkGameover()) {
+      random(false)
+      print()
+    }
   }
 }
 
 function goUp () {
-  go(moveUp, mergeUp)
+  go(isGoableUp, moveUp, mergeUp)
 }
 
 function goDown () {
-  go(moveDown, mergeDown)
+  go(isGoableDown, moveDown, mergeDown)
 }
 
 function goLeft () {
-  go(moveLeft, mergeLeft)
+  go(isGoableLeft, moveLeft, mergeLeft)
 }
 
 function goRight () {
-  go(moveRight, mergeRight)
+  go(isGoableRight, moveRight, mergeRight)
 }
 
 window.onload = init
