@@ -1,6 +1,8 @@
 <!doctype html>
 <html>
   <head>
+    <title>2048</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
       body {
         margin: 0;
@@ -65,6 +67,51 @@ function init () {
     print()
     inited = true
   }
+
+  /*
+  document.getElementById('up').onclick = function (e) { goUp() }
+  document.getElementById('down').onclick = function (e) { goDown() }
+  document.getElementById('left').onclick = function (e) { goLeft() }
+  document.getElementById('right').onclick = function (e) { goRight() }
+  */
+
+  let inner = document.getElementById('inner')
+  let touchsurface = document.getElementById('board')
+  let x = null
+  let y = null
+
+  touchsurface.addEventListener('touchstart', function(e){
+    var obj = e.changedTouches[0]
+    x = obj.pageX
+    y = obj.pageY
+    e.preventDefault()
+  }, false)
+
+  touchsurface.addEventListener('touchmove', function(e){
+    var obj = e.changedTouches[0]
+    e.preventDefault() // prevent scrolling when inside DIV
+  }, false)
+
+  touchsurface.addEventListener('touchend', function(e){
+    let obj = e.changedTouches[0]
+    let dx = obj.pageX - x
+    let dy = obj.pageY - y
+
+    if (Math.abs(dx) > Math.abs(dy)) {
+      if (dx < 0) {
+        goLeft()
+      } else if (dx > 0) {
+        goRight()
+      }
+    } else {
+      if (dy < 0) {
+        goUp()
+      } else if (dy > 0) {
+        goDown()
+      }
+    }
+    e.preventDefault()
+  }, false)
 }
 
 function padNumber (n) {
@@ -94,8 +141,8 @@ function print () {
       cells[i].style.color = 'black'
     }
   }
-  return
 
+  /*
   let lines = []
   for (const ns of N) {
     let numbers = []
@@ -107,6 +154,7 @@ function print () {
   }
   lines.push('+----+----+----+----+')
   console.log(lines.join('\n'))
+  */
 }
 
 // isGoable{Up,Down,Left,Right} {{{
@@ -352,51 +400,60 @@ function random (only2) {
   N[r][c] = random2or4(only2)
 }
 
-window.onload = init
-
-window.onkeydown = function (e) {
+function checkGameover () {
   if (isGameover()) {
     alert('Game over!')
-    console.log('Gameover!')
-    return
+    return true
   }
-  let changed = false
-    /*
-  if (e.code === 'Space') {
-    init()
-  }
-  */
-  if (e.code === 'ArrowUp' && isGoableUp()) {
-    moveUp()
-    mergeUp()
-    moveUp()
-    changed = true
-  } else if (e.code === 'ArrowDown' && isGoableDown()) {
-    moveDown()
-    mergeDown()
-    moveDown()
-    changed = true
-  } else if (e.code === 'ArrowLeft' && isGoableLeft()) {
-    moveLeft()
-    mergeLeft()
-    moveLeft()
-    changed = true
-  } else if (e.code === 'ArrowRight' && isGoableRight()) {
-    moveRight()
-    mergeRight()
-    moveRight()
-    changed = true
-  }
-  if (changed) {
+  return false
+}
+
+function go (move, merge) {
+  move()
+  merge()
+  move()
+  print()
+  if (!checkGameover()) {
     random(false)
     print()
+  }
+}
+
+function goUp () {
+  go(moveUp, mergeUp)
+}
+
+function goDown () {
+  go(moveDown, mergeDown)
+}
+
+function goLeft () {
+  go(moveLeft, mergeLeft)
+}
+
+function goRight () {
+  go(moveRight, mergeRight)
+}
+
+window.onload = init
+window.onkeydown = function (e) {
+  if (!checkGameover()) {
+    if (e.code === 'ArrowUp' && isGoableUp()) {
+      goUp()
+    } else if (e.code === 'ArrowDown' && isGoableDown()) {
+      goDown()
+    } else if (e.code === 'ArrowLeft' && isGoableLeft()) {
+      goLeft()
+    } else if (e.code === 'ArrowRight' && isGoableRight()) {
+      goRight()
+    }
   }
 }
     </script>
   </head>
   <body>
-    <div class="board">
-      <div class="cell"></div>
+    <div id="board" class="board">
+      <div id="inner" class="cell"></div>
       <div class="cell"></div>
       <div class="cell"></div>
       <div class="cell"></div>
@@ -413,5 +470,9 @@ window.onkeydown = function (e) {
       <div class="cell"></div>
       <div class="cell"></div>
     </div>
+    <!--button id="up">Up</button>
+    <button id="down">Down</button>
+    <button id="left">Left</button>
+    <button id="right">Right</button-->
   </body>
 </html>
