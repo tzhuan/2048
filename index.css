@@ -1,0 +1,30 @@
+body {
+  margin: 0;
+  padding: 1.5vmin;
+  background-color: rgb(187, 173, 160);
+}
+.board {
+  margin: 0;
+  padding: 0;
+  display: block;
+  width: 97vmin;
+  height: 97vmin;
+}
+.cell {
+  float: left;
+  width: 21.25vmin;
+  height: 21.25vmin;
+  background-color: #ddd;
+  margin: 1.5vmin;
+  border-radius: 1vmin;
+  /* border: 1px solid black; */
+  line-height: 21.25vmin;
+  text-align: center;
+
+  color: rgb(119, 110, 101);
+  background-color: rgba(238, 228, 218, 0.35);
+  font-family: monospace;
+  font-size: 5vmin;
+  font-weight: 900;
+}
+
