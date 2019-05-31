@@ -24,12 +24,14 @@ let N = [
 
 let inited = false
 function init () {
-  if (!inited) {
-    random(true)
-    random(true)
-    print()
-    inited = true
+  if (inited) {
+    return
   }
+
+  random(true)
+  random(true)
+  print()
+  inited = true
 
   /*
   document.getElementById('up').onclick = function (e) { goUp() }
@@ -38,6 +40,11 @@ function init () {
   document.getElementById('right').onclick = function (e) { goRight() }
   */
 
+  registerTouchSwipe()
+  registerKeydown()
+}
+
+function registerTouchSwipe () {
   let inner = document.getElementById('inner')
   let touchsurface = document.getElementById('board')
   let x = null
@@ -75,6 +82,22 @@ function init () {
     }
     e.preventDefault()
   }, false)
+}
+
+function registerKeydown () {
+  window.onkeydown = function (e) {
+    if (!checkGameover()) {
+      if (e.code === 'ArrowUp') {
+        goUp()
+      } else if (e.code === 'ArrowDown') {
+        goDown()
+      } else if (e.code === 'ArrowLeft') {
+        goLeft()
+      } else if (e.code === 'ArrowRight') {
+        goRight()
+      }
+    }
+  }
 }
 
 function padNumber (n) {
@@ -365,7 +388,8 @@ function random (only2) {
 
 function checkGameover () {
   if (isGameover()) {
-    alert('Game over!')
+    let modal = document.getElementById('game-over')
+    modal.style.display = 'block'
     return true
   }
   return false
@@ -401,16 +425,3 @@ function goRight () {
 }
 
 window.onload = init
-window.onkeydown = function (e) {
-  if (!checkGameover()) {
-    if (e.code === 'ArrowUp') {
-      goUp()
-    } else if (e.code === 'ArrowDown') {
-      goDown()
-    } else if (e.code === 'ArrowLeft') {
-      goLeft()
-    } else if (e.code === 'ArrowRight') {
-      goRight()
-    }
-  }
-}
