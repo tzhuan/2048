@@ -86,16 +86,14 @@ function registerTouchSwipe () {
 
 function registerKeydown () {
   window.onkeydown = function (e) {
-    if (!checkGameover()) {
-      if (e.code === 'ArrowUp') {
-        goUp()
-      } else if (e.code === 'ArrowDown') {
-        goDown()
-      } else if (e.code === 'ArrowLeft') {
-        goLeft()
-      } else if (e.code === 'ArrowRight') {
-        goRight()
-      }
+    if (e.code === 'ArrowUp') {
+      goUp()
+    } else if (e.code === 'ArrowDown') {
+      goDown()
+    } else if (e.code === 'ArrowLeft') {
+      goLeft()
+    } else if (e.code === 'ArrowRight') {
+      goRight()
     }
   }
 }
@@ -404,6 +402,7 @@ function go (check, move, merge) {
     if (!checkGameover()) {
       random(false)
       print()
+      checkGameover()
     }
   }
 }
